@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  stefanini-challenge:
+    container_name: stefanini-challenge
+    image: stefanini-challenge:latest
+    build:
+      context: .
+    ports:
+      - "10000:80"

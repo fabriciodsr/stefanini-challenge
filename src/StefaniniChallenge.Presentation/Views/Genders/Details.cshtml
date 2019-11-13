@@ -1,0 +1,29 @@
+﻿@model StefaniniChallenge.Application.DTO.GenderDTO
+
+@{
+    if (User.IsInRole("Seller"))
+    {
+        ViewData["Title"] = "Gender Details - Seller's View";
+    }
+    else
+    {
+        ViewData["Title"] = "Gender Details - Administrator's View";
+    }
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-success">Edit</a>
+    <a asp-action="Index" class="btn btn-info">Back to List</a>
+</div>

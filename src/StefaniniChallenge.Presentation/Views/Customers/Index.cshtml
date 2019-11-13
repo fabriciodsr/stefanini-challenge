@@ -1,0 +1,158 @@
+﻿@model StefaniniChallenge.Application.DTO.CustomerDTO
+
+@{
+    if (User.IsInRole("Seller"))
+    {
+        ViewData["Title"] = "Customer List - Seller's View";
+    }
+    else
+    {
+        ViewData["Title"] = "Customer List - Administrator's View";
+    }
+}
+
+<h1>@ViewData["Title"]</h1>
+<p>
+    <a class="btn btn-success" asp-action="Create" style="margin-top: 20px">Create New</a>
+</p>
+<div>
+    <form asp-controller="Customers" asp-action="Index" method="post">
+        <div class="form-row">
+            <div class="col-md-6">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" type="text" />
+            </div>
+
+            <div class="col-md-6">
+                <label class="control-label">Gender</label>
+                <select asp-for="GenderId" asp-items="ViewBag.GenderId" class="form-control">
+                    <option disabled selected></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row" style="margin-top: 10px;">
+            <div class="col-md-6">
+                <label class="control-label">City</label>
+                <select asp-for="CityId" asp-items="ViewBag.CityId" class="form-control">
+                    <option disabled selected></option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label class="control-label">Region</label>
+                <select asp-for="RegionId" asp-items="ViewBag.RegionId" class="form-control">
+                    <option disabled selected></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row" style="margin-top: 10px;">
+            <div class="col-md-6">
+                <label asp-for="LastPurchase" class="control-label"></label>
+                <input asp-for="LastPurchase" type="date" class="form-control" />
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="Until" class="control-label"></label>
+                <input asp-for="Until" type="date" class="form-control" />
+            </div>
+        </div>
+        <div class="form-row" style="margin-top: 10px;">
+            <div class="col-md-6">
+                <label class="control-label">Classification</label>
+                <select asp-for="ClassificationId" asp-items="ViewBag.ClassificationId" class="form-control">
+                    <option disabled selected></option>
+                </select>
+            </div>
+
+            @if (User.IsInRole("Administrator"))
+            {
+                <div class="col-md-6">
+                    <label class="control-label">Seller</label>
+                    <select asp-for="SellerId" asp-items="ViewBag.Sellers" class="form-control">
+                        <option disabled selected></option>
+                    </select>
+                </div>
+            }
+            else
+            {
+                <div class="col-md-6"></div>
+            }
+        </div>
+        <div class="form-row">
+            <div class="col-md-12" style="text-align: right; margin-top: 20px">
+                <input type="submit" class="btn btn-info" value="Search" />
+                <a class="btn btn-danger" asp-action="Index">Clear Search</a>
+            </div>
+        </div>
+    </form>
+</div>
+<br />
+<hr />
+<br />
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <label>Classification</label>
+            </th>
+            <th>
+                <label>Name</label>
+            </th>
+            <th>
+                <label>Phone</label>
+            </th>
+            <th>
+                <label>Gender</label>
+            </th>
+            <th>
+                <label>City</label>
+            </th>
+            <th>
+                <label>Region</label>
+            </th>
+            <th>
+                <label>Last Purchase</label>
+            </th>
+            @if (User.IsInRole("Administrator"))
+            {
+                <th>
+                    <label>Seller</label>
+                </th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Customers)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Classification.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gender.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Region.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastPurchase)
+                </td>
+                @if (User.IsInRole("Administrator"))
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdentityUser.UserName)
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
